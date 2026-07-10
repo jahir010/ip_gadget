@@ -95,7 +95,9 @@ async def _variant_serializer(variant: Variant) -> dict:
 
 
 @router.get("/categories", tags=["Categories"])
-async def get_categories(user: User = Depends(permission_required("view_productcategory"))):
+async def get_categories(
+    #user: User = Depends(permission_required("view_productcategory"))
+    ):
     categories = await ProductCategory.all()
     return [_category_serializer(category) for category in categories]
 
@@ -355,7 +357,7 @@ async def get_products(
     status: bool = None,
     offset: int = 0,
     limit: int = 10,
-    user: User = Depends(permission_required("view_product"))
+    #user: User = Depends(permission_required("view_product"))
 ):
     query = Product.all()
 
@@ -452,7 +454,9 @@ async def create_product(
 
 
 @router.get("/products/{product_id}", tags=["Product"])
-async def get_product(product_id: str, user: User = Depends(permission_required("view_product"))):
+async def get_product(product_id: str, 
+                      #user: User = Depends(permission_required("view_product"))
+                      ):
     product = await Product.get_or_none(id=product_id)
     if not product:
         raise HTTPException(status_code=404, detail="Product not found")
